@@ -8,30 +8,111 @@ const app = express();
 app.use(cors());
 
 app.get("/", (req, res) => {
+
   res.send("Backend online!");
+
 });
 
-app.get("/player/:tag", async (req, res) => {
-  try {
-    const tag = req.params.tag.replace("#", "");
+/* PLAYER */
 
-    const response = await fetch(
-      `https://api.brawlstars.com/v1/players/%23${tag}`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.BRAWL_API_KEY}`
-        }
-      }
-    );
+app.get(
+  "/player/:tag",
 
-    const data = await response.json();
+  async (req, res) => {
 
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({
-      error: "Error when searching the player"
-    });
+    try {
+
+      const tag =
+        req.params.tag
+          .replace("#", "");
+
+      const response =
+        await fetch(
+
+          `https://api.brawlstars.com/v1/players/%23${tag}`,
+
+          {
+
+            headers: {
+
+              Authorization:
+                `Bearer ${process.env.BRAWL_API_KEY}`
+
+            }
+
+          }
+
+        );
+
+      const data =
+        await response.json();
+
+      res.json(data);
+
+    } catch {
+
+      res.status(500).json({
+
+        error:
+          "Error when searching the player"
+
+      });
+
+    }
+
   }
-});
+);
 
-app.listen(process.env.PORT || 3000);
+/* CLUB */
+
+app.get(
+  "/club/:tag",
+
+  async (req, res) => {
+
+    try {
+
+      const tag =
+        req.params.tag
+          .replace("#", "");
+
+      const response =
+        await fetch(
+
+          `https://api.brawlstars.com/v1/clubs/%23${tag}`,
+
+          {
+
+            headers: {
+
+              Authorization:
+                `Bearer ${process.env.BRAWL_API_KEY}`
+
+            }
+
+          }
+
+        );
+
+      const data =
+        await response.json();
+
+      res.json(data);
+
+    } catch {
+
+      res.status(500).json({
+
+        error:
+          "Error when searching the club"
+
+      });
+
+    }
+
+  }
+);
+
+app.listen(
+  process.env.PORT || 3000
+);
